@@ -30,8 +30,8 @@ async def on_ready():
 )
 async def on_wow_status(interaction):
     # Create/Edit version
-    # loading_embed_msg = discord.Embed(title="Season of Discovery Realm Status", description="Refreshing realm status <a:Loading:1199860788240859227>")
-    # status_msg = await interaction.response.send_message(embed=loading_embed_msg)
+    loading_embed_msg = discord.Embed(title="Season of Discovery Realm Status", description="Refreshing realm status <a:Loading:1199860788240859227>")
+    status_msg = await interaction.response.send_message(embed=loading_embed_msg)
 
     embed_msg = discord.Embed(title="Season of Discovery Realm Status", description="The current status of all EU realms", timestamp=datetime.now())
     realms = realmStatus.retrieve_realms()
@@ -39,7 +39,7 @@ async def on_wow_status(interaction):
     for name, status in realms.items():
         embed_msg.add_field(name=name, value=RealmStatus.format_status(status))
 
-    await interaction.response.send_message(embed=embed_msg)
+    await interaction.edit_original_response(embed=embed_msg)
 
 
 client.run(TOKEN)

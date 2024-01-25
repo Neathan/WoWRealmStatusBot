@@ -1,5 +1,6 @@
 import selenium.webdriver as webdriver
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import WebDriverException
 
 class RealmStatus():
     def __init__(self):
@@ -13,7 +14,13 @@ class RealmStatus():
         self.driver.close()
 
     def retrieve_realms(self):
-        self.driver.refresh()
+        try:
+            self.driver.refresh()
+        except WebDriverException:
+            print("Error: Web driver error while trying to refresh page. Opening new instance (+4s delay).")
+            self.start()
+            self.driver.implicitly_wait(4.0)
+
         self.driver.implicitly_wait(1.0)
 
         table = self.driver.find_element(By.CLASS_NAME, "RealmsTable")
